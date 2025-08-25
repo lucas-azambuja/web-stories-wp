@@ -157,23 +157,15 @@ class TinyMCE extends Service_Base {
 	 *
 	 * @since 1.5.0
 	 */
-        public function register_assets(): void {
-                $this->assets->enqueue_style( 'wp-components' );
+	public function register_assets(): void {
+		$this->assets->enqueue_style( 'wp-components' );
 
-                $this->assets->enqueue_script_asset( self::SCRIPT_HANDLE );
-
-                $api_root = trailingslashit( site_url( rest_get_url_prefix() ) );
-                wp_add_inline_script(
-                        self::SCRIPT_HANDLE,
-                        'window.wpApiSettings = window.wpApiSettings || {}; window.wpApiSettings.root = ' .
-                        wp_json_encode( $api_root ) . ';',
-                        'before'
-                );
-                wp_localize_script(
-                        self::SCRIPT_HANDLE,
-                        'webStoriesData',
-                        $this->stories_script_data->get_script_data()
-                );
+		$this->assets->enqueue_script_asset( self::SCRIPT_HANDLE );
+		wp_localize_script(
+			self::SCRIPT_HANDLE,
+			'webStoriesData',
+			$this->stories_script_data->get_script_data()
+		);
 	}
 
 	/**
