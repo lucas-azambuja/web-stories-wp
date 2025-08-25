@@ -122,24 +122,16 @@ class Activation_Notice implements ServiceInterface, Registerable, PluginActivat
 		 */
 		unset( $_GET['activate'] ); // phpcs:ignore WordPress.Security.NonceVerification, WordPress.VIP.SuperGlobalInputUsage
 
-                $this->assets->enqueue_style( Google_Fonts::SCRIPT_HANDLE );
+		$this->assets->enqueue_style( Google_Fonts::SCRIPT_HANDLE );
 
-                $this->assets->enqueue_script_asset( self::SCRIPT_HANDLE, [ Tracking::SCRIPT_HANDLE ] );
+		$this->assets->enqueue_script_asset( self::SCRIPT_HANDLE, [ Tracking::SCRIPT_HANDLE ] );
 
-                $api_root = trailingslashit( site_url( rest_get_url_prefix() ) );
-                wp_add_inline_script(
-                        self::SCRIPT_HANDLE,
-                        'window.wpApiSettings = window.wpApiSettings || {}; window.wpApiSettings.root = ' .
-                        wp_json_encode( $api_root ) . ';',
-                        'before'
-                );
-
-                wp_localize_script(
-                        self::SCRIPT_HANDLE,
-                        'webStoriesActivationSettings',
-                        $this->get_script_settings()
-                );
-        }
+		wp_localize_script(
+			self::SCRIPT_HANDLE,
+			'webStoriesActivationSettings',
+			$this->get_script_settings()
+		);
+	}
 
 	/**
 	 * Renders the plugin activation notice.

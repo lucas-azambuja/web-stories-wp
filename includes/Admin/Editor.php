@@ -312,19 +312,10 @@ class Editor extends Service_Base implements HasRequirements {
 			[],
 			WEBSTORIES_VERSION,
 			true
-                );
+		);
 
-                wp_enqueue_script( self::SCRIPT_HANDLE );
-
-                $api_root = trailingslashit( site_url( rest_get_url_prefix() ) );
-                wp_add_inline_script(
-                        self::SCRIPT_HANDLE,
-                        'window.wpApiSettings = window.wpApiSettings || {}; window.wpApiSettings.root = ' .
-                        wp_json_encode( $api_root ) . ';',
-                        'before'
-                );
-
-                $this->assets->enqueue_style_asset( self::SCRIPT_HANDLE, [ $this->google_fonts::SCRIPT_HANDLE ] );
+		wp_enqueue_script( self::SCRIPT_HANDLE );
+		$this->assets->enqueue_style_asset( self::SCRIPT_HANDLE, [ $this->google_fonts::SCRIPT_HANDLE ] );
 
 		wp_localize_script(
 			self::SCRIPT_HANDLE,
