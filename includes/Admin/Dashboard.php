@@ -433,13 +433,21 @@ class Dashboard extends Service_Base {
 	 * @param string $hook_suffix The current admin page.
 	 */
 	public function enqueue_assets( string $hook_suffix ): void {
-		if ( $this->get_hook_suffix( 'stories-dashboard' ) !== $hook_suffix ) {
-			return;
-		}
+                if ( $this->get_hook_suffix( 'stories-dashboard' ) !== $hook_suffix ) {
+                        return;
+                }
 
-		$this->assets->enqueue_script_asset( self::SCRIPT_HANDLE, [ Tracking::SCRIPT_HANDLE ], false );
+                $this->assets->enqueue_script_asset( self::SCRIPT_HANDLE, [ Tracking::SCRIPT_HANDLE ], false );
 
-		$this->assets->enqueue_style_asset( self::SCRIPT_HANDLE, [ $this->google_fonts::SCRIPT_HANDLE ] );
+                $api_root = trailingslashit( site_url( rest_get_url_prefix() ) );
+                wp_add_inline_script(
+                        self::SCRIPT_HANDLE,
+                        'window.wpApiSettings = window.wpApiSettings || {}; window.wpApiSettings.root = ' .
+                        wp_json_encode( $api_root ) . ';',
+                        'before'
+                );
+
+                $this->assets->enqueue_style_asset( self::SCRIPT_HANDLE, [ $this->google_fonts::SCRIPT_HANDLE ] );
 
 		wp_localize_script(
 			self::SCRIPT_HANDLE,
